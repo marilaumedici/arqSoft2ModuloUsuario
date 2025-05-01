@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.arqsoft</groupId>
-	<artifactId>medici</artifactId>
+	<artifactId>libreMercadoUsuario</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>medici</name>
+	<name>libreMercadoUsuario</name>
 	<description>Proyecto mercado libre para arquitectura 2</description>
 	<url/>
 	<licenses>

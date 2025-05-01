@@ -4,11 +4,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.arqsoft.medici.domain.dto.UsuarioDTO;
+import com.arqsoft.medici.domain.dto.UsuarioResponseDTO;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -31,5 +33,10 @@ public interface UsuarioController {
     produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(nickname = "borrar_usuario", value = "Borra un usuario logicamente")
 	public void eliminarUsuario(@PathVariable(value = "email") String mail);
+    
+    @GetMapping(path = "/{email}", 
+    produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(nickname = "obtener_usuario", value = "Retorna un usuario existente")
+	public UsuarioResponseDTO obtenerUsuario(@PathVariable(value = "email") String mail);
 
 }
