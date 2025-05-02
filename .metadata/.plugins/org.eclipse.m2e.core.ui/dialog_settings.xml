@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\natalia.rodriguez01\source\repos\arq-soft-2\arqSoft2Tp2"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>
