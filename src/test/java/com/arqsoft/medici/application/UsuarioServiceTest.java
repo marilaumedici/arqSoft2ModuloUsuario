@@ -278,6 +278,49 @@ public class UsuarioServiceTest {
 
 	}
 	
+	@Test
+	public void testObtenerUsuarioExsistente() {
+		
+		Usuario usuarioBD = new Usuario(nombre, apellido, email, UsuarioEstado.ACTIVO);
+		Optional<Usuario> usuarioOpcional = Optional.of(usuarioBD); 
+		when(usuarioRepository.findById(email)).thenReturn(usuarioOpcional);
+		
+		assertDoesNotThrow(() -> { 
+			
+			Usuario user  = usuarioService.obtenerUsuarioByID(email); 
+			
+			assertEquals(email, user.getMail());
+			assertEquals(nombre, user.getNombre());
+			assertEquals(apellido, user.getApellido());
+			assertEquals(UsuarioEstado.ACTIVO, user.getEstado());
+		
+		});
+
+	}
+	
+	@Test
+	public void testObtenerUsuarioBorrado() {
+		
+		Usuario usuarioBD = new Usuario(nombre, apellido, email, UsuarioEstado.BORRADO);
+		Optional<Usuario> usuarioOpcional = Optional.of(usuarioBD); 
+		when(usuarioRepository.findById(email)).thenReturn(usuarioOpcional);
+		
+		assertThrows(UsuarioNoEncontradoException.class, () -> {  usuarioService.obtenerUsuarioByID(email); });
+
+	}
+	
+	@Test
+	public void testObtenerUsuarioInexistente() {
+		
+		Optional<Usuario> usuarioOpcional = Optional.empty(); 
+		when(usuarioRepository.findById(email)).thenReturn(usuarioOpcional);
+		
+		assertThrows(UsuarioNoEncontradoException.class, () -> {  usuarioService.obtenerUsuarioByID(email); });
+
+	}
+	
+	
+	
 
 	public UsuarioRepository getUsuarioRepository() {
 		return usuarioRepository;
