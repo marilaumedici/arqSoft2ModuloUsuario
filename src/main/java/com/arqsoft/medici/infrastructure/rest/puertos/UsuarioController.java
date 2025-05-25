@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.arqsoft.medici.infrastructure.rest.dto.ErrorResponse;
 import com.arqsoft.medici.infrastructure.rest.dto.UsuarioDTO;
 import com.arqsoft.medici.infrastructure.rest.dto.UsuarioResponseDTO;
 
@@ -34,13 +35,13 @@ public interface UsuarioController {
         @ApiResponse(responseCode = "400", description = "Usuario existente",
         content = @Content(
             mediaType = "application/json",
-            schema = @Schema(implementation = ResponseStatusException.class)
+            schema = @Schema(implementation = ErrorResponse.class)
 	        )
 	    ),
         @ApiResponse(responseCode = "500", description = "Error de servicio",
         content = @Content(
             mediaType = "application/json",
-            schema = @Schema(implementation = ResponseStatusException.class)
+            schema = @Schema(implementation = ErrorResponse.class)
 	        )
 	    ),
     })
@@ -55,13 +56,13 @@ public interface UsuarioController {
         @ApiResponse(responseCode = "400", description = "Usuario no modificado",
         content = @Content(
             mediaType = "application/json",
-            schema = @Schema(implementation = ResponseStatusException.class)
+            schema = @Schema(implementation = ErrorResponse.class)
 	        )
 	    ),
         @ApiResponse(responseCode = "500", description = "Error de servicio",
         content = @Content(
             mediaType = "application/json",
-            schema = @Schema(implementation = ResponseStatusException.class)
+            schema = @Schema(implementation = ErrorResponse.class)
 	        )
 	    ),
     })
@@ -75,13 +76,13 @@ public interface UsuarioController {
         @ApiResponse(responseCode = "400", description = "Usuario no borrado",
         content = @Content(
             mediaType = "application/json",
-            schema = @Schema(implementation = ResponseStatusException.class)
+            schema = @Schema(implementation = ErrorResponse.class)
 	        )
 	    ),
         @ApiResponse(responseCode = "500", description = "Error de servicio",
         content = @Content(
             mediaType = "application/json",
-            schema = @Schema(implementation = ResponseStatusException.class)
+            schema = @Schema(implementation = ErrorResponse.class)
 	        )
 	    ),
     })
@@ -100,13 +101,13 @@ public interface UsuarioController {
         @ApiResponse(responseCode = "400", description = "Usuario no encontrado",
         content = @Content(
             mediaType = "application/json",
-            schema = @Schema(implementation = ResponseStatusException.class)
+            schema = @Schema(implementation = ErrorResponse.class)
 	        )
 	    ),
         @ApiResponse(responseCode = "500", description = "Error de servicio",
         content = @Content(
             mediaType = "application/json",
-            schema = @Schema(implementation = ResponseStatusException.class)
+            schema = @Schema(implementation = ErrorResponse.class)
 	        )
 	    ),
         

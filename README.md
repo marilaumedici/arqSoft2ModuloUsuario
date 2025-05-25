@@ -96,4 +96,13 @@ Abrir una consola CMD en donde se encuentra el codigo del proyecto descargado y 
 mvn spring-boot:run
 ```
 
-El servicio estará disponible en esta url http://localhost:8080/
+El servicio estará disponible en esta url http://localhost:8085/
+
+
+## Swagger
+
+Para obtener el swagger del servicio, una vez que se encuentre arriba, en un navegador se debera colocar la siguiente url:
+
+```swagger
+http://localhost:8085/swagger-ui/index.html
+```
