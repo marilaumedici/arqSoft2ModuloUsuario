@@ -8,11 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.server.ResponseStatusException;
 import com.arqsoft.medici.domain.dto.UsuarioDTO;
 import com.arqsoft.medici.domain.dto.UsuarioResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Content;
 
-import io.swagger.annotations.ApiOperation;
+
 
 @RequestMapping("/usuario")
 public interface UsuarioController {
@@ -20,23 +26,89 @@ public interface UsuarioController {
     @PostMapping(path = "/", 
     consumes = MediaType.APPLICATION_JSON_VALUE, 
     produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(nickname = "crear_usuario", value = "Crea un usuario")
+    @Operation(summary = "crear_usuario", description = "Crea un usuario comprador")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Usuario creado"),
+        @ApiResponse(responseCode = "400", description = "Usuario existente",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = ResponseStatusException.class)
+	        )
+	    ),
+        @ApiResponse(responseCode = "500", description = "Error de servicio",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = ResponseStatusException.class)
+	        )
+	    ),
+    })
 	public void crearUsuario(@RequestBody UsuarioDTO request);
     
     @PutMapping(path = "/", 
     consumes = MediaType.APPLICATION_JSON_VALUE, 
     produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(nickname = "modificar_usuario", value = "Modifica un usuario")
+    @Operation(summary = "modificar_usuario", description = "Modifica un usuario comprador")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Usuario modificado"),
+        @ApiResponse(responseCode = "400", description = "Usuario no modificado",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = ResponseStatusException.class)
+	        )
+	    ),
+        @ApiResponse(responseCode = "500", description = "Error de servicio",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = ResponseStatusException.class)
+	        )
+	    ),
+    })
 	public void modificarUsuario(@RequestBody UsuarioDTO request);
     
     @DeleteMapping(path = "/{email}", 
     produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(nickname = "borrar_usuario", value = "Borra un usuario logicamente")
-	public void eliminarUsuario(@PathVariable(value = "email") String mail);
+    @Operation(summary = "borrar_usuario", description = "Borra un usuario logicamente")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Usuario borrado"),
+        @ApiResponse(responseCode = "400", description = "Usuario no borrado",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = ResponseStatusException.class)
+	        )
+	    ),
+        @ApiResponse(responseCode = "500", description = "Error de servicio",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = ResponseStatusException.class)
+	        )
+	    ),
+    })
+	public void eliminarUsuario( @Parameter(description = "Email del usuario a borrar", example = "analopez@gmail.com") @PathVariable(value = "email") String mail);
     
     @GetMapping(path = "/{email}", 
     produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(nickname = "obtener_usuario", value = "Retorna un usuario existente")
-	public UsuarioResponseDTO obtenerUsuario(@PathVariable(value = "email") String mail);
+    @Operation(summary = "obtener_usuario", description = "Retorna un usuario existente")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Usuario encontrado",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = UsuarioResponseDTO.class)
+	        )
+	    ),
+        @ApiResponse(responseCode = "400", description = "Usuario no encontrado",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = ResponseStatusException.class)
+	        )
+	    ),
+        @ApiResponse(responseCode = "500", description = "Error de servicio",
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = ResponseStatusException.class)
+	        )
+	    ),
+        
+    })
+	public UsuarioResponseDTO obtenerUsuario(@Parameter(description = "Email del usuario a buscar", example = "analopez@gmail.com" )@PathVariable(value = "email") String mail);
 
 }

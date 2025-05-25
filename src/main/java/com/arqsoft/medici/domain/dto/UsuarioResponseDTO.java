@@ -2,11 +2,17 @@ package com.arqsoft.medici.domain.dto;
 
 import com.arqsoft.medici.domain.utils.UsuarioEstado;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class UsuarioResponseDTO {
 	
+	@Schema(description = "Nombre completo del usuario",example = "Ana" )
 	private String nombre;
+	@Schema(description = "Apellido completo del usuario",example = "López" )
 	private String apellido;
+	@Schema(description = "Email del usuario",example = "analopez@gmail.com")
 	private String mail;
+	@Schema(description = "Estado del usuario",example = "[ACTIVO,BORRADO]")
 	private UsuarioEstado estado;
 
 	
