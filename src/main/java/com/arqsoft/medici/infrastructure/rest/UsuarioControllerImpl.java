@@ -1,17 +1,19 @@
 package com.arqsoft.medici.infrastructure.rest;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import com.arqsoft.medici.application.UsuarioService;
 import com.arqsoft.medici.domain.Usuario;
-import com.arqsoft.medici.domain.dto.UsuarioDTO;
-import com.arqsoft.medici.domain.dto.UsuarioResponseDTO;
+import com.arqsoft.medici.domain.dto.UsuarioDomainDTO;
 import com.arqsoft.medici.domain.exceptions.FormatoEmailInvalidoException;
 import com.arqsoft.medici.domain.exceptions.InternalErrorException;
 import com.arqsoft.medici.domain.exceptions.UsuarioExistenteException;
 import com.arqsoft.medici.domain.exceptions.UsuarioNoEncontradoException;
+import com.arqsoft.medici.infrastructure.rest.dto.UsuarioDTO;
+import com.arqsoft.medici.infrastructure.rest.dto.UsuarioResponseDTO;
 import com.arqsoft.medici.infrastructure.rest.puertos.UsuarioController;
 
 
@@ -20,16 +22,19 @@ public class UsuarioControllerImpl implements UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
-	
+	private ModelMapper modelMapper = new ModelMapper();
 	
 	@Override
-	public void crearUsuario(UsuarioDTO request) {
+	public void crearUsuario(UsuarioDTO dto) {
     	
     	try {
+    		
+    		UsuarioDomainDTO request = modelMapper.map(dto, UsuarioDomainDTO.class);
 			usuarioService.crearUsuario(request);
+
 			
 		} catch (UsuarioExistenteException e) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El usuario "+request.getMail()+" ya existe.", e);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El usuario "+dto.getMail()+" ya existe.", e);
 			
 		} catch (InternalErrorException e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
@@ -44,13 +49,15 @@ public class UsuarioControllerImpl implements UsuarioController {
     }
     
 	@Override
-	public void modificarUsuario(UsuarioDTO request) {
+	public void modificarUsuario(UsuarioDTO dto) {
     	
 			try {
+				
+				UsuarioDomainDTO request = modelMapper.map(dto, UsuarioDomainDTO.class);
 				usuarioService.modificarUsuario(request);
 				
 			} catch (UsuarioNoEncontradoException e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se encontro el usuario "+request.getMail()+".", e);
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se encontro el usuario "+dto.getMail()+".", e);
 
 			} catch (InternalErrorException e) {
 				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);

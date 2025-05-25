@@ -16,12 +16,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.arqsoft.medici.domain.Usuario;
-import com.arqsoft.medici.domain.dto.UsuarioDTO;
+import com.arqsoft.medici.domain.dto.UsuarioDomainDTO;
 import com.arqsoft.medici.domain.exceptions.FormatoEmailInvalidoException;
 import com.arqsoft.medici.domain.exceptions.InternalErrorException;
 import com.arqsoft.medici.domain.exceptions.UsuarioExistenteException;
 import com.arqsoft.medici.domain.utils.UsuarioEstado;
 import com.arqsoft.medici.infrastructure.persistence.UsuarioRepository;
+import com.arqsoft.medici.infrastructure.rest.dto.UsuarioDTO;
 import com.arqsoft.medici.domain.exceptions.UsuarioNoEncontradoException;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,19 +47,13 @@ public class UsuarioServiceTest {
 	
 	@Test
 	public void testCrearUsuarioInexistenteOK() throws UsuarioExistenteException, InternalErrorException, FormatoEmailInvalidoException {
-/*
-	    MockedStatic<FormatUtils> mockStatic = mockStatic(FormatUtils.class);
-	    mockStatic.when(() -> FormatUtils.isValidEmail(email)).thenAnswer(invocation -> {
-	    	//.thenThrow(new FormatoEmailInvalidoException());
-            return null; 
-        });
-		*/
+
 		Optional<Usuario> usuarioOpcional = Optional.empty(); 
 		when(usuarioRepository.findById(email)).thenReturn(usuarioOpcional);
 		
 		when(usuarioRepository.insert(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
 		
-		UsuarioDTO request = new UsuarioDTO(nombre, apellido, email);
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre, apellido, email);
 		assertDoesNotThrow(() -> { usuarioService.crearUsuario(request); });
 		
 		//mockStatic.verify(() -> FormatUtils.isValidEmail(email), times(1));
@@ -84,7 +79,7 @@ public class UsuarioServiceTest {
 		
 		when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
 		
-		UsuarioDTO request = new UsuarioDTO(nombre, apellido, email);
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre, apellido, email);
 		assertDoesNotThrow(() -> { usuarioService.crearUsuario(request); });
 		
 		verify(usuarioRepository, times(1)).findById(email);
@@ -108,7 +103,7 @@ public class UsuarioServiceTest {
 		Optional<Usuario> usuarioOpcional = Optional.of(usuarioBD); 
 		when(usuarioRepository.findById(email)).thenReturn(usuarioOpcional);
 				
-		UsuarioDTO request = new UsuarioDTO(nombre, apellido, email);
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre, apellido, email);
 		assertThrows(UsuarioExistenteException.class, () -> {  usuarioService.crearUsuario(request); });
 		
 	}
@@ -117,7 +112,7 @@ public class UsuarioServiceTest {
 	@Test
 	public void testCrearUsuarioEmailVacio() throws UsuarioExistenteException, InternalErrorException, FormatoEmailInvalidoException {
 				
-		UsuarioDTO request = new UsuarioDTO(nombre, apellido, null);
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre, apellido, null);
 		assertThrows(InternalErrorException.class, () -> {  usuarioService.crearUsuario(request); });
 		
 	}
@@ -125,7 +120,7 @@ public class UsuarioServiceTest {
 	@Test
 	public void testCrearUsuarioEmailEmpty() throws UsuarioExistenteException, InternalErrorException, FormatoEmailInvalidoException {
 				
-		UsuarioDTO request = new UsuarioDTO(nombre, apellido, "");
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre, apellido, "");
 		assertThrows(InternalErrorException.class, () -> {  usuarioService.crearUsuario(request); });
 		
 	}
@@ -133,7 +128,7 @@ public class UsuarioServiceTest {
 	@Test
 	public void testCrearUsuarioEmailInvalido() throws UsuarioExistenteException, InternalErrorException, FormatoEmailInvalidoException {
 				
-		UsuarioDTO request = new UsuarioDTO(nombre, apellido, emailIvalido);
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre, apellido, emailIvalido);
 		assertThrows(FormatoEmailInvalidoException.class, () -> {  usuarioService.crearUsuario(request); });
 		//assertDoesNotThrow(() -> { usuarioService.crearUsuario(request); });
 		
@@ -147,7 +142,7 @@ public class UsuarioServiceTest {
 		when(usuarioRepository.findById(email)).thenReturn(usuarioOpcional);
 		when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-		UsuarioDTO request = new UsuarioDTO(nombre_otro, apellido_otro, email);		
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre_otro, apellido_otro, email);		
 		assertDoesNotThrow(() -> { usuarioService.modificarUsuario(request); });
 		
 		verify(usuarioRepository, times(1)).findById(email);
@@ -170,7 +165,7 @@ public class UsuarioServiceTest {
 		Optional<Usuario> usuarioOpcional = Optional.of(usuarioBD); 
 		when(usuarioRepository.findById(email)).thenReturn(usuarioOpcional);
 
-		UsuarioDTO request = new UsuarioDTO(nombre_otro, apellido_otro, email);		
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre_otro, apellido_otro, email);		
 		assertThrows(UsuarioNoEncontradoException.class, () -> {  usuarioService.modificarUsuario(request); });
 
 		verify(usuarioRepository, times(1)).findById(email);
@@ -183,7 +178,7 @@ public class UsuarioServiceTest {
 		Optional<Usuario> usuarioOpcional = Optional.empty(); 
 		when(usuarioRepository.findById(email)).thenReturn(usuarioOpcional);
 
-		UsuarioDTO request = new UsuarioDTO(nombre_otro, apellido_otro, email);		
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre_otro, apellido_otro, email);		
 		assertThrows(UsuarioNoEncontradoException.class, () -> {  usuarioService.modificarUsuario(request); });
 
 		verify(usuarioRepository, times(1)).findById(email);
@@ -193,7 +188,7 @@ public class UsuarioServiceTest {
 	@Test
 	public void testModificarUsuarioMailVacio() {
 
-		UsuarioDTO request = new UsuarioDTO(nombre_otro, apellido_otro, "");		
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre_otro, apellido_otro, "");		
 		assertThrows(InternalErrorException.class, () -> {  usuarioService.modificarUsuario(request); });
 		
 	}
@@ -201,7 +196,7 @@ public class UsuarioServiceTest {
 	@Test
 	public void testModificarUsuarioMailNull() {
 
-		UsuarioDTO request = new UsuarioDTO(nombre_otro, apellido_otro, null);		
+		UsuarioDomainDTO request = new UsuarioDomainDTO(nombre_otro, apellido_otro, null);		
 		assertThrows(InternalErrorException.class, () -> {  usuarioService.modificarUsuario(request); });
 		
 	}

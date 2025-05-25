@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
-import com.arqsoft.medici.domain.dto.UsuarioDTO;
-import com.arqsoft.medici.domain.dto.UsuarioResponseDTO;
+
+import com.arqsoft.medici.infrastructure.rest.dto.UsuarioDTO;
+import com.arqsoft.medici.infrastructure.rest.dto.UsuarioResponseDTO;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

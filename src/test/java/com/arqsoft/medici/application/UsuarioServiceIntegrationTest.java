@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.arqsoft.medici.domain.Usuario;
-import com.arqsoft.medici.domain.dto.UsuarioDTO;
+import com.arqsoft.medici.domain.dto.UsuarioDomainDTO;
 import com.arqsoft.medici.domain.exceptions.UsuarioExistenteException;
 import com.arqsoft.medici.domain.exceptions.UsuarioNoEncontradoException;
 import com.arqsoft.medici.domain.utils.UsuarioEstado;
 import com.arqsoft.medici.infrastructure.persistence.UsuarioRepository;
+import com.arqsoft.medici.infrastructure.rest.dto.UsuarioDTO;
 
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class UsuarioServiceIntegrationTest {
 
     @Test
     public void testCrearUsuarioNuevo() throws Exception {
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
+    	UsuarioDomainDTO usuarioDTO = new UsuarioDomainDTO();
         usuarioDTO.setNombre("Carlos");
         usuarioDTO.setApellido("Gonzalez");
         usuarioDTO.setMail("carlos.gonzalez1@example.com");
@@ -47,7 +48,7 @@ public class UsuarioServiceIntegrationTest {
         usuarioExistente.setEstado(UsuarioEstado.ACTIVO);
         usuarioRepository.insert(usuarioExistente);
 
-        UsuarioDTO request = new UsuarioDTO();
+        UsuarioDomainDTO request = new UsuarioDomainDTO();
         request.setMail("ana.lopez1@example.com");
         request.setNombre("Ana");
         request.setApellido("Lopez");
@@ -61,7 +62,7 @@ public class UsuarioServiceIntegrationTest {
         usuarioExistente.setEstado(UsuarioEstado.BORRADO);
         usuarioRepository.insert(usuarioExistente);
 
-        UsuarioDTO request = new UsuarioDTO();
+        UsuarioDomainDTO request = new UsuarioDomainDTO();
         request.setMail("mario.perez1@example.com");
         request.setNombre("Mario");
         request.setApellido("Perez");
@@ -82,7 +83,7 @@ public class UsuarioServiceIntegrationTest {
         usuarioExistente.setEstado(UsuarioEstado.ACTIVO);
         usuarioRepository.insert(usuarioExistente);
 
-        UsuarioDTO request = new UsuarioDTO();
+        UsuarioDomainDTO request = new UsuarioDomainDTO();
         request.setMail("laura.gomez1@example.com");
         request.setNombre("Laura Modificada");
         request.setApellido("Gomez Modificada");
@@ -98,7 +99,7 @@ public class UsuarioServiceIntegrationTest {
 
     @Test
     public void testModificarUsuarioNoEncontrado() {
-        UsuarioDTO request = new UsuarioDTO();
+    	UsuarioDomainDTO request = new UsuarioDomainDTO();
         request.setMail("no.existe@example.com");
         request.setNombre("No Existe");
         request.setApellido("Usuario");

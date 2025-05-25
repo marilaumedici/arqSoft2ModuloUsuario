@@ -1,20 +1,25 @@
-package com.arqsoft.medici.domain.dto;
-
-import com.arqsoft.medici.domain.utils.UsuarioEstado;
+package com.arqsoft.medici.infrastructure.rest.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public class UsuarioResponseDTO {
-	
+public class UsuarioDTO {
+
 	@Schema(description = "Nombre completo del usuario",example = "Ana" )
 	private String nombre;
 	@Schema(description = "Apellido completo del usuario",example = "López" )
 	private String apellido;
-	@Schema(description = "Email del usuario",example = "analopez@gmail.com")
+	@Schema(description = "Email del usuario",example = "analopez@gmail.com", nullable = false )
 	private String mail;
-	@Schema(description = "Estado del usuario",example = "[ACTIVO,BORRADO]")
-	private UsuarioEstado estado;
-
+	
+	public UsuarioDTO(String nombre, String apellido, String mail) {
+		super();
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.mail = mail;
+	}
+	
+	public UsuarioDTO() {}
+	
 	
 	public String getNombre() {
 		return nombre;
@@ -34,11 +39,6 @@ public class UsuarioResponseDTO {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public UsuarioEstado getEstado() {
-		return estado;
-	}
-	public void setEstado(UsuarioEstado estado) {
-		this.estado = estado;
-	}
-
+	
+	
 }

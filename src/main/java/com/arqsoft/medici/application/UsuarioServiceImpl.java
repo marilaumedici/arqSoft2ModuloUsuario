@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.arqsoft.medici.domain.Usuario;
-import com.arqsoft.medici.domain.dto.UsuarioDTO;
+import com.arqsoft.medici.domain.dto.UsuarioDomainDTO;
 import com.arqsoft.medici.domain.exceptions.FormatoEmailInvalidoException;
 import com.arqsoft.medici.domain.exceptions.InternalErrorException;
 import com.arqsoft.medici.domain.exceptions.UsuarioExistenteException;
@@ -21,7 +21,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private UsuarioRepository usuarioRepository;
 
 	@Override
-	public void crearUsuario(UsuarioDTO request) throws UsuarioExistenteException, InternalErrorException, FormatoEmailInvalidoException {
+	public void crearUsuario(UsuarioDomainDTO request) throws UsuarioExistenteException, InternalErrorException, FormatoEmailInvalidoException {
 
 		if(StringUtils.isBlank(request.getMail())) {
 			throw new InternalErrorException("El campo mail no debe viajar vacio");
@@ -47,7 +47,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 	
 	@Override
-	public void modificarUsuario(UsuarioDTO request) throws UsuarioNoEncontradoException, InternalErrorException {
+	public void modificarUsuario(UsuarioDomainDTO request) throws UsuarioNoEncontradoException, InternalErrorException {
 		
 		if(StringUtils.isBlank(request.getMail())) {
 			throw new InternalErrorException("El campo mail no debe viajar vacio");
@@ -100,7 +100,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 	}
 
-	private void actualizarDatosUsuario(UsuarioDTO request, Usuario usuario) {
+	private void actualizarDatosUsuario(UsuarioDomainDTO request, Usuario usuario) {
 		
 		if(StringUtils.isNotBlank(request.getApellido())) {
 			usuario.setApellido(request.getApellido());
